@@ -4,18 +4,18 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      - WUZAPI_ADMIN_TOKEN=e3121c21-dfd5-42c3-bc74-5e71dad28c91
+      - WUZAPI_ADMIN_TOKEN=${WUZAPI_ADMIN_TOKEN}
       - WUZAPI_GLOBAL_ENCRYPTION_KEY=${WUZAPI_GLOBAL_ENCRYPTION_KEY}
-      - WUZAPI_GLOBAL_HMAC_KEY=${WUZAPI_GLOBAL_HMAC_KEY:-}
-      - WUZAPI_GLOBAL_WEBHOOK=https://a5c0187cdc78.ngrok-free.app/api/webhooks/waha
-      - DB_USER=${DB_USER:-wuzapi}
-      - DB_PASSWORD=${DB_PASSWORD:-wuzapi}
-      - DB_NAME=${DB_NAME:-wuzapi}
+      - WUZAPI_GLOBAL_HMAC_KEY=${WUZAPI_GLOBAL_HMAC_KEY}
+      - WUZAPI_GLOBAL_WEBHOOK=${WUZAPI_GLOBAL_WEBHOOK}
+      - SESSION_DEVICE_NAME=${SESSION_DEVICE_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
       - DB_HOST=db
-      - DB_PORT=${DB_PORT:-5432}
-      - TZ=${TZ:-America/Sao_Paulo}
-      - WEBHOOK_FORMAT=${WEBHOOK_FORMAT:-json}
-      - SESSION_DEVICE_NAME=UnoZAP
+      - DB_PORT=${DB_PORT}
+      - TZ=America/Sao_Paulo
+      - WEBHOOK_FORMAT=json
       # RabbitMQ configuration Optional
       - RABBITMQ_URL=amqp://wuzapi:wuzapi@rabbitmq:5672/
       - RABBITMQ_QUEUE=whatsapp_events
@@ -31,9 +31,9 @@ services:
   db:
     image: postgres:16
     environment:
-      POSTGRES_USER: ${DB_USER:-wuzapi}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-wuzapi}
-      POSTGRES_DB: ${DB_NAME:-wuzapi}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     # ports:
     #   - "${DB_PORT:-5432}:5432" # Uncomment to access the database directly from your host machine.
     volumes:
@@ -41,7 +41,7 @@ services:
     networks:
       - wuzapi-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-wuzapi}"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
       interval: 5s
       timeout: 5s
       retries: 5

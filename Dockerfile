@@ -50,6 +50,4 @@ RUN chmod +x /app/wuzapi && \
     chmod -R 755 /app && \
     chown -R root:root /app
 
-EXPOSE 8080
-
 ENTRYPOINT ["/app/wuzapi", "--logtype=console", "--color=true"]
